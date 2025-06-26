@@ -1,0 +1,33 @@
+class Solution {
+public:
+    ListNode* mergeTwoLists(ListNode* a, ListNode* b) {
+        if (a == NULL)
+            return b;
+        if (b == NULL)
+            return a;
+
+        ListNode* c = new ListNode(1);
+        ListNode* tempC = c;
+
+        while (a != NULL && b != NULL) {
+            if (a->val < b->val) {
+
+                tempC->next = a;
+                a = a->next;
+
+            } else {
+                tempC->next = b;
+                b = b->next;
+            }
+            tempC = tempC->next;
+        }
+
+        if (a != NULL) {
+            tempC->next = a;
+        } else {
+            tempC->next = b;
+        }
+
+        return c->next;
+    }
+};
