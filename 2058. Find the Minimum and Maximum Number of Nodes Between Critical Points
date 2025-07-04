@@ -1,0 +1,40 @@
+class Solution {
+public:
+    vector<int> nodesBetweenCriticalPoints(ListNode* head) {
+        vector<int> positions;
+
+        // Need at least 3 nodes to have a critical point
+        if (!head || !head->next || !head->next->next) {
+            return {-1, -1};
+        }
+
+        ListNode* prev = head;
+        ListNode* curr = head->next;
+        ListNode* next = head->next->next;
+
+        int index = 1; // curr is at position 1
+        while (next) {
+            if ((curr->val > prev->val && curr->val > next->val) || 
+                (curr->val < prev->val && curr->val < next->val)) {
+                positions.push_back(index);
+            }
+
+            prev = curr;
+            curr = next;
+            next = next->next;
+            index++;
+        }
+
+        if (positions.size() < 2) {
+            return {-1, -1};
+        }
+
+        int minDist = INT_MAX;
+        for (int i = 1; i < positions.size(); i++) {
+            minDist = min(minDist, positions[i] - positions[i - 1]);
+        }
+
+        int maxDist = positions.back() - positions.front();
+        return {minDist, maxDist};
+    }
+};
