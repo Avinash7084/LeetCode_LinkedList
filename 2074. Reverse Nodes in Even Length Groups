@@ -1,0 +1,47 @@
+class Solution {
+public:
+        ListNode* reverseBetween(ListNode* head, int left, int right) {
+        if (!head || left == right) return head;
+
+        ListNode* dummy = new ListNode(-1);
+        dummy->next = head;
+        ListNode* prev = dummy;
+
+        
+        for (int i = 1; i < left; i++) {
+            prev = prev->next;
+        }
+
+        ListNode* start = prev->next;         
+        ListNode* then = start->next;
+     
+        for (int i = 0; i < right - left; i++) {
+            start->next = then->next;
+            then->next = prev->next;
+            prev->next = then;
+            then = start->next;
+        }
+
+        return dummy->next;
+    }
+    ListNode* reverseEvenLengthGroups(ListNode* head) {
+        ListNode* temp = head;
+        ListNode* slow = temp->next;
+        int gap = 1;
+        while (temp && temp->next) {
+            int rem = 0;
+            ListNode* t = temp->next;
+            for(int i=0; i<gap+1 && t != NULL; i++){
+                t = t->next;
+                rem++;
+            }
+            if(rem < gap+1) gap = rem-1;
+            if(gap % 2 !=0) reverseBetween(temp,2,2+gap);
+            gap++;
+            for(int i=1; temp!=NULL && i<=gap; i++){
+                temp = temp->next;
+            }
+        }
+        return head;
+    }
+};
