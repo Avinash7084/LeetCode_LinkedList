@@ -1,0 +1,30 @@
+class Solution {
+public:
+    bool searchKey(ListNode* head, int key) {
+        ListNode* slow = head;
+        ListNode* fast = head;
+
+        while(fast->next != NULL && fast->next->next != NULL){
+            slow = slow->next;
+            fast = fast->next->next;
+        }
+        if(slow->val == key){
+            return true;
+        }
+        else if(slow->val > key){
+            for(ListNode* curr=head; curr != slow; curr = curr->next){
+                if(curr->val == key){
+                    return true;
+                }
+            }
+        }
+        else{
+            for(ListNode* curr = slow; curr != NULL; curr = curr->next){
+                if(curr->val == key){
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+};
